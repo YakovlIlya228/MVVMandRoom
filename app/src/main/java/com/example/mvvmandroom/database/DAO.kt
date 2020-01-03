@@ -15,13 +15,13 @@ interface DAO{
     fun updateAll(vararg note: Note)
 
     @Insert
-    fun insert(note: Note)
+    fun insert(note: Note?)
 
     @Update
-    fun update(note: Note)
+    fun update(note: Note?)
 
     @Delete
-    fun delete(note: Note)
+    fun delete(note: Note?)
 
     @Query("DELETE FROM note_table")
     fun deleteAll()
