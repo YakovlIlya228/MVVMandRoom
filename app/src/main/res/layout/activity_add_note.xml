@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.AddNoteActivity">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:padding="15dp"
+        android:id="@+id/viewsAndEdits">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter the note title:"
+        android:textSize="24sp"
+        android:textColor="@color/textBlack"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter title here"
+        android:id="@+id/titleEdit"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:textSize="18sp"
+        android:inputType="text"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter the note description:"
+            android:textSize="22sp"
+            android:textColor="@color/textBlack"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter description here"
+            android:id="@+id/descriptionEdit"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:inputType="textMultiLine"/>
+
+
+    </LinearLayout>
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_below="@id/viewsAndEdits"
+        android:layout_marginStart="55dp"
+        android:id="@+id/priorityPicker"
+        />
+
+</RelativeLayout>
+
