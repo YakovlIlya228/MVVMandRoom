@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,8 +14,6 @@ import com.example.mvvmandroom.adapters.noteItemListener
 import com.example.mvvmandroom.database.Note
 import com.example.mvvmandroom.livedata.NoteViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.note_adapter_item.*
-import kotlinx.android.synthetic.main.note_adapter_item.view.*
 
 class MainActivity : AppCompatActivity() {
 
