@@ -58,16 +58,17 @@
         android:layout_marginStart="55dp"
         android:id="@+id/priorityPicker"
         />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_save"
-        android:id="@+id/saveButton"
         android:elevation="6dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="20dp"
-        />
+        app:srcCompat="@color/design_default_color_primary" />
 
 
 </RelativeLayout>

@@ -14,9 +14,6 @@ class AddNoteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_note)
-//        val titleEdit = titleEdit
-//        val descriptionEdit = descriptionEdit
-//        val priorityPicker = priorityPicker
         val bundle: Bundle? = intent.getBundleExtra("note")
         val viewModel: NoteViewModel? = ViewModelProviders.of(this)[NoteViewModel::class.java]
         if(bundle!=null){
@@ -27,8 +24,16 @@ class AddNoteActivity : AppCompatActivity() {
             priorityPicker.value = bundle!!.getString("priority")!!.toInt()
         }
         saveButton.setOnClickListener {
-            val note = Note(titleEdit.text.toString(),descriptionEdit.text.toString(),priorityPicker.value)
-            viewModel?.insert(note)
+            if(bundle!=null){
+                val note = Note(bundle.getInt("noteID"),titleEdit.text.toString(),descriptionEdit.text.toString(),priorityPicker.value)
+                viewModel?.update(note)
+            }
+            else{
+                val note = Note(titleEdit.text.toString(),descriptionEdit.text.toString(),priorityPicker.value)
+                viewModel?.insert(note)
+            }
+
+
         }
-        }
+}
 }

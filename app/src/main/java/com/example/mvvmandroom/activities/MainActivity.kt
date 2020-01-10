@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,9 +35,10 @@ class MainActivity : AppCompatActivity() {
             override fun onItemClick(view: View, position: Int) {
                 val addIntent = Intent(this@MainActivity, AddNoteActivity::class.java)
                 val bundle = Bundle()
-                bundle.putString("title",noteAdapter?.NoteHolder(view)?.noteTitle?.text.toString())
+                bundle.putInt("noteID",noteRecycler.findViewHolderForAdapterPosition(position)?.itemView?.id!!)
+                bundle.putString("title",noteRecycler.findViewHolderForAdapterPosition(position)?.itemView?.findViewById<TextView>(R.id.noteTitle)?.text.toString())
                 bundle.putString("description",noteAdapter?.NoteHolder(view)?.noteDescription?.text.toString())
-                bundle.putString("priority",noteAdapter?.NoteHolder(view)?.priority?.text.toString())
+                bundle.putString("priority",noteAdapter?.NoteHolder(view)?.noteDescription?.text.toString())
                 addIntent.putExtra("note",bundle)
                 startActivity(addIntent)
             }
