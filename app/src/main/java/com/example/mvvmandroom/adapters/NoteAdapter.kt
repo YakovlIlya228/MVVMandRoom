@@ -1,18 +1,18 @@
 package com.example.mvvmandroom.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.TextView
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmandroom.R
 import com.example.mvvmandroom.database.Note
 import kotlinx.android.synthetic.main.note_adapter_item.view.*
 
-class NoteAdapter(noteList: List<Note>): RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
-    var itemList: List<Note> = noteList
+class NoteAdapter(context: Context): RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
+    private var itemList = emptyList<Note>()
+    private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     inner class NoteHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val noteTitle: TextView = itemView.noteTitle
@@ -22,12 +22,17 @@ class NoteAdapter(noteList: List<Note>): RecyclerView.Adapter<NoteAdapter.NoteHo
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteHolder {
-        val itemView = LayoutInflater.from(parent?.context).inflate(R.layout.note_adapter_item,parent,false)
+        val itemView = inflater.inflate(R.layout.note_adapter_item,parent,false)
         return NoteHolder(itemView)
     }
 
     override fun getItemCount(): Int {
         return itemList.size
+    }
+
+    fun setNotes(notes: List<Note>){
+        itemList = notes
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {

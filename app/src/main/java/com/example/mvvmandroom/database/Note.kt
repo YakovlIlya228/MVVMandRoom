@@ -11,6 +11,7 @@ data class Note(
     @ColumnInfo(name="title") var title: String,
     @ColumnInfo(name="description") var description: String?,
     @ColumnInfo(name="priority") var priority: Int
-){
-    constructor(title: String,description: String?,priority: Int): this(Int.MIN_VALUE,title,description,priority)
-}
+)
+//{
+//    constructor(title: String,description: String?,priority: Int): this(Int.MIN_VALUE,title,description,priority)
+//}

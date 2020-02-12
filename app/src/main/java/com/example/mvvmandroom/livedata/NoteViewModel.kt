@@ -1,30 +1,42 @@
 package com.example.mvvmandroom.livedata
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.*
 import com.example.mvvmandroom.database.Note
-import com.example.mvvmandroom.database.noteDatabase
+import com.example.mvvmandroom.database.NoteDatabase
+import kotlinx.coroutines.launch
 
 class NoteViewModel(application: Application): AndroidViewModel(application) {
-    var notes: LiveData<List<Note>>? = Repo().getAll()
-    var database: noteDatabase? = noteDatabase.getInstance(application)
-    var noteDao = database?.noteDao()
-
-    fun insert(note: Note){
-        Repo().insert(noteDao, note)
-    }
-    fun update(note: Note){
-        Repo().update(noteDao, note)
-    }
-    fun delete(note: Note){
-        Repo().delete(noteDao, note)
-    }
-    fun deleteAll(){
-        Repo().deleteAll()
+//    val notes: MutableLiveData<List<Note>> by lazy {
+//        MutableLiveData<List<Note>>().also{
+//            loadNotes()
+//        }
+//    }
+    val notes: LiveData<List<Note>>
+    private val noteRepository: NoteRepo
+    init {
+        val noteDao = NoteDatabase.getInstance(application).noteDao()
+        noteRepository = NoteRepo(noteDao)
+        notes = noteRepository.allNotes
     }
 
-    fun getAllNotes(): LiveData<List<Note>>?{
-        return notes
+
+//    private fun loadNotes()= viewModelScope.launch{
+//        noteRepository.getNotes()
+//    }
+
+    fun insert(note: Note) = viewModelScope.launch{
+        noteRepository.insert(note)
+    }
+
+    fun update(note: Note) = viewModelScope.launch{
+        noteRepository.update(note)
+    }
+
+    fun delete(note: Note)= viewModelScope.launch{
+        noteRepository.delete(note)
+    }
+    fun deleteAll() = viewModelScope.launch{
+        noteRepository.deleteAll()
     }
 }

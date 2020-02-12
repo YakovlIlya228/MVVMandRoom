@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmandroom.R
@@ -14,34 +14,47 @@ import com.example.mvvmandroom.adapters.NoteAdapter
 import com.example.mvvmandroom.adapters.noteItemListener
 import com.example.mvvmandroom.database.Note
 import com.example.mvvmandroom.livedata.NoteViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 
+
 class MainActivity : AppCompatActivity() {
-
-
+//    val REQUEST_CODE = 10000
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var noteRecycler: RecyclerView = noteRecycler
+        val addButton: FloatingActionButton = addButton
+        val noteRecycler: RecyclerView = noteRecycler
+        val noteAdapter = NoteAdapter(this)
         noteRecycler.layoutManager = LinearLayoutManager(this)
-        var noteAdapter: NoteAdapter? = null
-        var viewModel: NoteViewModel? = ViewModelProviders.of(this)[NoteViewModel::class.java]
-        viewModel?.getAllNotes()?.observe(this, Observer<List<Note>> { allNotes ->
-            noteAdapter = NoteAdapter(allNotes)
-            noteRecycler.adapter = noteAdapter
+        noteRecycler.adapter = noteAdapter
+        val viewModel: NoteViewModel  = ViewModelProvider(this).get(NoteViewModel::class.java)
+        viewModel.notes.observe(this, Observer<List<Note>>{
+            it.let { noteAdapter.setNotes(it) }
         })
+//        val newNote = Note(0,"Apple","Buy 1 kilo of apples", 5)
+//        val notesList = mutableListOf<Note>()
+//        notesList.add(newNote)
+//        noteAdapter.setNotes(notesList)
         noteRecycler.addOnItemTouchListener(noteItemListener(noteRecycler,
             object : noteItemListener.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
-                val addIntent = Intent(this@MainActivity, AddNoteActivity::class.java)
+                val updateIntent = Intent(this@MainActivity, AddNoteActivity::class.java)
                 val bundle = Bundle()
                 bundle.putInt("noteID",noteRecycler.findViewHolderForAdapterPosition(position)?.itemView?.id!!)
                 bundle.putString("title",noteRecycler.findViewHolderForAdapterPosition(position)?.itemView?.findViewById<TextView>(R.id.noteTitle)?.text.toString())
-                bundle.putString("description",noteAdapter?.NoteHolder(view)?.noteDescription?.text.toString())
-                bundle.putString("priority",noteAdapter?.NoteHolder(view)?.noteDescription?.text.toString())
-                addIntent.putExtra("note",bundle)
-                startActivity(addIntent)
+                bundle.putString("description",noteAdapter.NoteHolder(view).noteDescription.text.toString())
+                bundle.putInt("priority",noteAdapter.NoteHolder(view).priority.text.toString().toInt())
+                updateIntent.putExtra("note",bundle)
+                startActivity(updateIntent)
             }
         }))
+        addButton.setOnClickListener {
+            val addIntent = Intent(this@MainActivity, AddNoteActivity::class.java)
+            startActivity(addIntent)
+        }
+
     }
 }
+

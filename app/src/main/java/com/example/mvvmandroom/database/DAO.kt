@@ -8,20 +8,20 @@ interface DAO{
     @Query("SELECT * FROM  note_table ORDER BY priority DESC")
     fun getAll(): LiveData<List<Note>>
 
+//    @Insert
+//    fun insertAll(vararg note: Note)
+//
+//    @Update
+//    fun updateAll(vararg note: Note)
+
     @Insert
-    fun insertAll(vararg note: Note)
+    fun insert(note: Note)
 
     @Update
-    fun updateAll(vararg note: Note)
-
-    @Insert
-    fun insert(note: Note?)
-
-    @Update
-    fun update(note: Note?)
+    fun update(note: Note)
 
     @Delete
-    fun delete(note: Note?)
+    fun delete(note: Note)
 
     @Query("DELETE FROM note_table")
     fun deleteAll()
