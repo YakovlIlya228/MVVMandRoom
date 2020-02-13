@@ -3,6 +3,7 @@ package com.example.mvvmandroom.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Observer
@@ -42,7 +43,8 @@ class MainActivity : AppCompatActivity() {
             override fun onItemClick(view: View, position: Int) {
                 val updateIntent = Intent(this@MainActivity, AddNoteActivity::class.java)
                 val bundle = Bundle()
-                bundle.putInt("noteID",noteRecycler.findViewHolderForAdapterPosition(position)?.itemView?.id!!)
+                bundle.putInt("noteID",noteAdapter.getIdForPos(position))
+                Log.d("noteidmain",noteAdapter.getIdForPos(position).toString())
                 bundle.putString("title",noteRecycler.findViewHolderForAdapterPosition(position)?.itemView?.findViewById<TextView>(R.id.noteTitle)?.text.toString())
                 bundle.putString("description",noteAdapter.NoteHolder(view).noteDescription.text.toString())
                 bundle.putInt("priority",noteAdapter.NoteHolder(view).priority.text.toString().toInt())

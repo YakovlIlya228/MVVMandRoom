@@ -3,6 +3,7 @@ package com.example.mvvmandroom.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.example.mvvmandroom.R
 import com.example.mvvmandroom.database.Note
@@ -18,6 +19,7 @@ class AddNoteActivity : AppCompatActivity() {
         val viewModel: NoteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
         priorityPicker.minValue = 1
         priorityPicker.maxValue = 10
+        val id = bundle?.getInt("noteID")
         if(bundle!=null){
             titleEdit.setText(bundle.getString("title"))
             descriptionEdit.setText(bundle.getString("description"))
@@ -25,7 +27,7 @@ class AddNoteActivity : AppCompatActivity() {
         }
         saveButton.setOnClickListener {
             if(bundle!=null){
-                val note = Note(bundle.getInt("noteID"),titleEdit.text.toString(),descriptionEdit.text.toString(),priorityPicker.value)
+                val note = Note(id!!,titleEdit.text.toString(),descriptionEdit.text.toString(),priorityPicker.value)
                 viewModel.update(note)
                 val returnIntent = Intent(this@AddNoteActivity, MainActivity::class.java)
                 startActivity(returnIntent)

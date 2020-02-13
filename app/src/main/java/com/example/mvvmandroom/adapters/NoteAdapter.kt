@@ -18,7 +18,6 @@ class NoteAdapter(context: Context): RecyclerView.Adapter<NoteAdapter.NoteHolder
         val noteTitle: TextView = itemView.noteTitle
         val noteDescription: TextView = itemView.noteDescription
         val priority: TextView = itemView.notePriority
-        var id: Int? = null
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteHolder {
@@ -35,11 +34,15 @@ class NoteAdapter(context: Context): RecyclerView.Adapter<NoteAdapter.NoteHolder
         notifyDataSetChanged()
     }
 
+    fun getIdForPos(pos: Int): Int{
+        return itemList[pos].id
+    }
+
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
         val item = itemList[position]
-        holder?.id = item.id
-        holder?.noteTitle?.text = item.title
-        holder?.noteDescription?.text = item.description
-        holder?.priority?.text = item.priority.toString()
+        var id = item.id
+        holder.noteTitle.text = item.title
+        holder.noteDescription.text = item.description
+        holder.priority.text = item.priority.toString()
     }
 }
