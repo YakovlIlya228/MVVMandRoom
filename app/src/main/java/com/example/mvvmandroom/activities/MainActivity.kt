@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmandroom.R
@@ -20,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-//    val REQUEST_CODE = 10000
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -34,10 +35,6 @@ class MainActivity : AppCompatActivity() {
         viewModel.notes.observe(this, Observer<List<Note>>{
             it.let { noteAdapter.setNotes(it) }
         })
-//        val newNote = Note(0,"Apple","Buy 1 kilo of apples", 5)
-//        val notesList = mutableListOf<Note>()
-//        notesList.add(newNote)
-//        noteAdapter.setNotes(notesList)
         noteRecycler.addOnItemTouchListener(noteItemListener(noteRecycler,
             object : noteItemListener.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
@@ -52,6 +49,22 @@ class MainActivity : AppCompatActivity() {
                 startActivity(updateIntent)
             }
         }))
+        val swipeCallback = object: ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val pos = viewHolder.adapterPosition
+                    viewModel.delete(noteAdapter.getNoteForPos(pos))
+            }
+        }
+        val swipeTouchHelper = ItemTouchHelper(swipeCallback)
+        swipeTouchHelper.attachToRecyclerView(noteRecycler)
         addButton.setOnClickListener {
             val addIntent = Intent(this@MainActivity, AddNoteActivity::class.java)
             startActivity(addIntent)

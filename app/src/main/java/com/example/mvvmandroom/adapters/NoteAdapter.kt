@@ -38,6 +38,10 @@ class NoteAdapter(context: Context): RecyclerView.Adapter<NoteAdapter.NoteHolder
         return itemList[pos].id
     }
 
+    fun getNoteForPos(pos: Int): Note{
+        return itemList[pos]
+    }
+
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
         val item = itemList[position]
         var id = item.id
